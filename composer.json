@@ -1,0 +1,29 @@
+{
+    "name" : "sf2h/sftp-bundle",
+    "type" : "symfony-bundle",
+    "description" : "SYmfony2 bundle which provide quite simple functions for interact with sftp servers",
+    "keywords" : [
+        "sftp",
+        "Symfony2",
+        "ssh"
+    ],
+    "homepage": "https://github.com/NovikovViktor/SFTPBundle",
+    "license": "MIT",
+    "authors" : [
+        {
+            "name" : "Viktor Novikov"
+        }
+    ],
+    "require" : {
+        "php": ">=5.3",
+        "symfony/framework-bundle": "~2.3"
+    },
+    "require-dev": {
+        "symfony/finder": "~2.6",
+        "symfony/console": "~2.6",
+        "phpunit/phpunit": "~4.5"
+    },
+    "autoload" : {
+        "psr-4" : { "SF2Helpers\\SFTPBundle\\" : "" }
+    }
+}
