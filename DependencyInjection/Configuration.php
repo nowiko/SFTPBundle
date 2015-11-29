@@ -16,20 +16,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('sleepness_uber_translation');
-        $rootNode
-            ->children()
-                ->arrayNode('memcached')
-                    ->children()
-                        ->scalarNode('host')->end()
-                        ->integerNode('port')->end()
-                    ->end()
-                ->end()
-                ->arrayNode('supported_locales')
-                    ->defaultValue(array('en'))
-                    ->prototype('scalar')
-                ->end()
-        ;
+        $rootNode = $treeBuilder->root('sf2h_sftp');
 
         return $treeBuilder;
     }
