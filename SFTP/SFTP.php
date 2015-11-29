@@ -18,7 +18,6 @@ class SFTP implements ConnectionInterface, ResourceTransferInterface
         $connection = ssh2_connect($host);
         ssh2_auth_password($connection, $username, $password);
         $sftp = ssh2_sftp($connection);
-
         $this->connection = $connection;
         $this->sftp = $sftp;
     }
