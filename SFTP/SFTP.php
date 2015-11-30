@@ -26,6 +26,9 @@ class SFTP implements ConnectionInterface, ResourceTransferInterface
     {
         $sftp = "ssh2.sftp://$this->sftp";
         $data = file_get_contents($sftp . $remoteFile);
+        if (!$data) {
+            throw new \Exception('File can`t be loaded from server');
+        }
         file_put_contents($localFile, $data);
     }
 
@@ -33,9 +36,21 @@ class SFTP implements ConnectionInterface, ResourceTransferInterface
     {
         $sftp = "ssh2.sftp://$this->sftp";
         $data = file_get_contents($localFile);
-        file_put_contents($sftp . $remoteFile, $data);
+        if (!file_put_contents($sftp . $remoteFile, $data)) {
+            throw new \Exception('File could not be uploaded to server');
+        }
     }
 
+    public function getFilesList($dir) {
+        $handle = opendir("ssh2.sftp://$this->sftp" . $dir);
+        $files = array();
+
+        while (false != ($entry = readdir($handle))){
+            $files[] = $entry;
+        }
+
+        return $files;
+    }
 
     public function disconnect()
     {
