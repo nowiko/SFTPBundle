@@ -28,6 +28,17 @@ class SFTP implements ConnectionInterface, ResourceTransferInterface
         $this->sftp = $sftp;
     }
 
+    public function connectWithKey($host, $username, string $pubkeyfile, string $privkeyfile, string $passphrase=NULL)
+    {
+        $connection = ssh2_connect($host);
+
+        ssh2_auth_pubkey_file($connection, $username, $pubkeyfile, $privkeyfile, $passphrase);
+
+        $sftp = ssh2_sftp($connection);
+        $this->connection = $connection;
+        $this->sftp = $sftp;
+    }
+
     public function copy($remoteFile, $localFile)
     {
         $sftp = "ssh2.sftp://$this->sftp";
