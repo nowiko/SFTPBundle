@@ -13,11 +13,11 @@ class SFTP implements ConnectionInterface, ResourceTransferInterface
     {
     }
 
-    public function connect($host, $username, $password=NULL)
+    public function connect($host, $username, $password=null)
     {
         $connection = ssh2_connect($host);
 
-        if ($password.is_null()) {
+        if (is_null($password)) {
             ssh2_auth_agent($connection, $username);
         } else {
             ssh2_auth_password($connection, $username, $password);
