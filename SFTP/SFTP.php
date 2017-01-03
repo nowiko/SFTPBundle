@@ -8,12 +8,12 @@ class SFTP implements ConnectionInterface, ResourceTransferInterface
 
     private $sftp; // established sftp
 
-
-    public function __construct()
-    {
-    }
-
-    public function connect($host, $username, $password=null)
+    /**
+     * @param string $host
+     * @param string $username
+     * @param string|null $password
+     */
+    public function connect($host, $username, $password = null)
     {
         $connection = ssh2_connect($host);
 
@@ -28,7 +28,14 @@ class SFTP implements ConnectionInterface, ResourceTransferInterface
         $this->sftp = $sftp;
     }
 
-    public function connectWithKey($host, $username, string $pubkeyfile, string $privkeyfile, string $passphrase=NULL)
+    /**
+     * @param string $host
+     * @param string $username
+     * @param string  $pubkeyfile
+     * @param string $privkeyfile
+     * @param string|null $passphrase
+     */
+    public function connectWithKey($host, $username, $pubkeyfile, $privkeyfile, $passphrase = null)
     {
         $connection = ssh2_connect($host);
 
@@ -39,6 +46,11 @@ class SFTP implements ConnectionInterface, ResourceTransferInterface
         $this->sftp = $sftp;
     }
 
+    /**
+     * @param $remoteFile
+     * @param $localFile
+     * @throws \Exception
+     */
     public function copy($remoteFile, $localFile)
     {
         $sftp = "ssh2.sftp://$this->sftp";
@@ -49,6 +61,11 @@ class SFTP implements ConnectionInterface, ResourceTransferInterface
         file_put_contents($localFile, $data);
     }
 
+    /**
+     * @param $localFile
+     * @param $remoteFile
+     * @throws \Exception
+     */
     public function send($localFile, $remoteFile)
     {
         $sftp = "ssh2.sftp://$this->sftp";
@@ -58,11 +75,16 @@ class SFTP implements ConnectionInterface, ResourceTransferInterface
         }
     }
 
-    public function getFilesList($dir) {
+    /**
+     * @param $dir
+     * @return array
+     */
+    public function getFilesList($dir)
+    {
         $handle = opendir("ssh2.sftp://$this->sftp" . $dir);
         $files = array();
 
-        while (false != ($entry = readdir($handle))){
+        while (false != ($entry = readdir($handle))) {
             $files[] = $entry;
         }
 
