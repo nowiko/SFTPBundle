@@ -13,10 +13,27 @@ class SFTP implements ConnectionInterface, ResourceTransferInterface
     {
     }
 
-    public function connect($host, $username, $password)
+    public function connect($host, $username, $password=null)
     {
         $connection = ssh2_connect($host);
-        ssh2_auth_password($connection, $username, $password);
+
+        if (is_null($password)) {
+            ssh2_auth_agent($connection, $username);
+        } else {
+            ssh2_auth_password($connection, $username, $password);
+        }
+
+        $sftp = ssh2_sftp($connection);
+        $this->connection = $connection;
+        $this->sftp = $sftp;
+    }
+
+    public function connectWithKey($host, $username, string $pubkeyfile, string $privkeyfile, string $passphrase=NULL)
+    {
+        $connection = ssh2_connect($host);
+
+        ssh2_auth_pubkey_file($connection, $username, $pubkeyfile, $privkeyfile, $passphrase);
+
         $sftp = ssh2_sftp($connection);
         $this->connection = $connection;
         $this->sftp = $sftp;
@@ -57,4 +74,4 @@ class SFTP implements ConnectionInterface, ResourceTransferInterface
         ssh2_exec($this->connection, 'exit');
         unset($this->connection);
     }
-} 
+}
