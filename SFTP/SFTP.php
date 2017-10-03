@@ -4,35 +4,40 @@ namespace SF2Helpers\SFTPBundle\SFTP;
 
 class SFTP implements ConnectionInterface, ResourceTransferInterface
 {
-    private $connection; // connection instance
-
-    private $sftp; // established sftp
+    /**
+     * Connection instance
+     *
+     * @var $connection
+     */
+    private $connection;
 
     /**
-     * @param string $host
-     * @param string $username
+     * Established sftp resource
+     *
+     * @var $sftp
+     */
+    private $sftp;
+
+    /**
+     * @param string      $host
+     * @param string      $username
      * @param string|null $password
      */
     public function connect($host, $username, $password = null)
     {
         $connection = ssh2_connect($host);
 
-        if (is_null($password)) {
-            ssh2_auth_agent($connection, $username);
-        } else {
-            ssh2_auth_password($connection, $username, $password);
-        }
+        is_null($password) ? ssh2_auth_agent($connection, $username) : ssh2_auth_password($connection, $username, $password);
 
-        $sftp = ssh2_sftp($connection);
         $this->connection = $connection;
-        $this->sftp = $sftp;
+        $this->sftp       = ssh2_sftp($connection);
     }
 
     /**
-     * @param string $host
-     * @param string $username
-     * @param string  $pubkeyfile
-     * @param string $privkeyfile
+     * @param string      $host
+     * @param string      $username
+     * @param string      $pubkeyfile
+     * @param string      $privkeyfile
      * @param string|null $passphrase
      */
     public function connectWithKey($host, $username, $pubkeyfile, $privkeyfile, $passphrase = null)
@@ -41,9 +46,8 @@ class SFTP implements ConnectionInterface, ResourceTransferInterface
 
         ssh2_auth_pubkey_file($connection, $username, $pubkeyfile, $privkeyfile, $passphrase);
 
-        $sftp = ssh2_sftp($connection);
         $this->connection = $connection;
-        $this->sftp = $sftp;
+        $this->sftp       = ssh2_sftp($connection);
     }
 
     /**
@@ -82,9 +86,9 @@ class SFTP implements ConnectionInterface, ResourceTransferInterface
     public function getFilesList($dir)
     {
         $handle = opendir("ssh2.sftp://$this->sftp" . $dir);
-        $files = array();
+        $files  = [];
 
-        while (false != ($entry = readdir($handle))) {
+        while (false !== ($entry = readdir($handle))) {
             $files[] = $entry;
         }
 
