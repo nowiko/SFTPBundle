@@ -5,11 +5,11 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="sftp.class">SF2Helpers\SFTPBundle\SFTP\SFTP</parameter>
+        <parameter key="sf2h.sftp.class">SF2Helpers\SFTPBundle\SFTP\SFTP</parameter>
     </parameters>
 
     <services>
-        <service id="sftp" class="%sftp.class%" />
+        <service id="sf2h.sftp" class="%sf2h.sftp.class%" />
     </services>
 
 </container>

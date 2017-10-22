@@ -19,9 +19,7 @@ class SFTP implements ConnectionInterface, ResourceTransferInterface
     private $sftp;
 
     /**
-     * @param string      $host
-     * @param string      $username
-     * @param string|null $password
+     * @inheritdoc
      */
     public function connect($host, $username, $password = null)
     {
@@ -34,11 +32,7 @@ class SFTP implements ConnectionInterface, ResourceTransferInterface
     }
 
     /**
-     * @param string      $host
-     * @param string      $username
-     * @param string      $pubkeyfile
-     * @param string      $privkeyfile
-     * @param string|null $passphrase
+     * @inheritdoc
      */
     public function connectWithKey($host, $username, $pubkeyfile, $privkeyfile, $passphrase = null)
     {
@@ -51,9 +45,7 @@ class SFTP implements ConnectionInterface, ResourceTransferInterface
     }
 
     /**
-     * @param $remoteFile
-     * @param $localFile
-     * @throws \Exception
+     * @inheritdoc
      */
     public function copy($remoteFile, $localFile)
     {
@@ -66,9 +58,7 @@ class SFTP implements ConnectionInterface, ResourceTransferInterface
     }
 
     /**
-     * @param $localFile
-     * @param $remoteFile
-     * @throws \Exception
+     * @inheritdoc
      */
     public function send($localFile, $remoteFile)
     {
@@ -80,10 +70,9 @@ class SFTP implements ConnectionInterface, ResourceTransferInterface
     }
 
     /**
-     * @param $dir
-     * @return array
+     * @inheritdoc
      */
-    public function getFilesList($dir)
+    public function getRemoteFilesList($dir)
     {
         $handle = opendir("ssh2.sftp://$this->sftp" . $dir);
         $files  = [];
@@ -95,6 +84,9 @@ class SFTP implements ConnectionInterface, ResourceTransferInterface
         return $files;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function disconnect()
     {
         ssh2_exec($this->connection, 'exit');

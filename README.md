@@ -5,7 +5,8 @@ Symfony2 Helpers - SFTP bundle
 
 This bundle provide simple interface for transfer files by [SFTP](https://en.wikipedia.org/wiki/SFTP) protocol.
 
-Installation:
+Installation
+==============
 
 1) Install libssh2-php library:
 
@@ -35,5 +36,18 @@ Installation:
              // ... other code
         }
     ```
+Usage
+=======
 
-4) Use service `sftp` for transfering files by SFTP. Details about service usage see here.
+1) Use service `sf2h.sftp` to transfer files over SFTP:
+    
+    ```php
+       $this->get('sf2h.sftp')->copy('/path/to/remoteFile', '/path/to/localFile');
+       // or
+       $this->get('sf2h.sftp')->send('/path/to/localFile', '/path/to/remoteFile');
+    ```
+
+2) From CLI could be used one of the following commands:
+   
+    - `php app(bin)/console sftp:copy` - to copy files from remote server to local machine
+    - `php app(bin)/console sftp:send` - to copy files from local server to remote machine
