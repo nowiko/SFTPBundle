@@ -39,15 +39,24 @@ Installation
 Usage
 =======
 
-1) Use service `sf2h.sftp` to transfer files over SFTP:
+1) Connect to server via `sf2h.sftp` service:
     
     ```php
-       $this->get('sf2h.sftp')->copy('/path/to/remoteFile', '/path/to/localFile');
+       $sftp = $this->get('sf2h.sftp');
+       $sftp->connect($host, $username, $password = null);
        // or
-       $this->get('sf2h.sftp')->send('/path/to/localFile', '/path/to/remoteFile');
+       $sftp->connectWithKey($host, $username, $pubkeyfile, $privkeyfile, $passphrase = null);
     ```
 
-2) From CLI could be used one of the following commands:
+2) Use sftp service  to transfer files over SFTP:
+    
+    ```php
+       $sftp->copy('/path/to/remoteFile', '/path/to/localFile');
+       // or
+       $sftp->send('/path/to/localFile', '/path/to/remoteFile');
+    ```
+
+3) From CLI could be used one of the following commands:
    
-    - `php app(bin)/console sftp:copy` - to copy files from remote server to local machine
-    - `php app(bin)/console sftp:send` - to copy files from local server to remote machine
+    - `php app(bin)/console sftp:copy /path/to/remoteFile /path/to/localFile` - to copy files from remote server to local machine
+    - `php app(bin)/console sftp:send /path/to/localFile /path/to/remoteFile` - to copy files from local server to remote machine
