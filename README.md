@@ -11,8 +11,16 @@ Installation
 1) Install libssh2-php library:
 
     ```bash
+        // Ubuntu
         sudo apt-get install libssh2-php
         sudo service apache2 restart
+        
+        //MacOS
+        sudo port install libssh2
+        sudo pecl install channel://pecl.php.net/ssh2-0.12
+        
+        // when you will be asked about lib prefix put /opt/local , so terminal will look like
+        libssh2 prefix? [autodetect] : /opt/local
     ```
 
 2) Install bundle using Composer:
