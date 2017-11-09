@@ -13,7 +13,7 @@ class CopyFileCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('sftp:copy')
+            ->setName('sf2h:sftp:fetchFrom')
             ->setDefinition(array(
                 new InputArgument('remoteFile', InputArgument::REQUIRED, 'Full path to remote file'),
                 new InputArgument('localFile', InputArgument::REQUIRED, 'Full path to local file')
@@ -35,7 +35,7 @@ class CopyFileCommand extends ContainerAwareCommand
         $sftp = $this->get('sftp');
 
         try {
-            $sftp->copy($input->getArgument('remoteFile'), $input->getArgument('localFile'));
+            $sftp->fetchFrom($input->getArgument('remoteFile'), $input->getArgument('localFile'));
             $output->writeln('File transfer handled.');
         } catch (\Exception $e) {
             $output->writeln('File transfer failed.');

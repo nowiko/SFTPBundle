@@ -11,7 +11,7 @@ interface ResourceTransferInterface
      * @param $localFile
      * @return mixed
      */
-    public function copy($remoteFile, $localFile);
+    public function fetchFrom($remoteFile, $localFile);
 
     /**
      * Copy file from local machine to remote
@@ -20,7 +20,7 @@ interface ResourceTransferInterface
      * @param $remoteFile
      * @return mixed
      */
-    public function send($localFile, $remoteFile);
+    public function sendTo($localFile, $remoteFile);
 
     /**
      * Return array of files names from remote dir

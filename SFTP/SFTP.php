@@ -47,7 +47,7 @@ class SFTP implements ConnectionInterface, ResourceTransferInterface
     /**
      * @inheritdoc
      */
-    public function copy($remoteFile, $localFile)
+    public function fetchFrom($remoteFile, $localFile)
     {
         $sftp = "ssh2.sftp://$this->sftp";
         $data = file_get_contents($sftp . $remoteFile);
@@ -60,7 +60,7 @@ class SFTP implements ConnectionInterface, ResourceTransferInterface
     /**
      * @inheritdoc
      */
-    public function send($localFile, $remoteFile)
+    public function sendTo($localFile, $remoteFile)
     {
         $sftp = "ssh2.sftp://$this->sftp";
         $data = file_get_contents($localFile);

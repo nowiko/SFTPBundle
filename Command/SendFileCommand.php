@@ -13,7 +13,7 @@ class SendFileCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('sftp:send')
+            ->setName('sf2h:sftp:sendTo')
             ->setDefinition(array(
                 new InputArgument('localFile', InputArgument::REQUIRED, 'Full path to local file'),
                 new InputArgument('remoteFile', InputArgument::REQUIRED, 'Full path to remote file')
@@ -35,7 +35,7 @@ class SendFileCommand extends ContainerAwareCommand
         $sftp = $this->get('sftp');
 
         try {
-            $sftp->send($input->getArgument('localFile'), $input->getArgument('remoteFile'));
+            $sftp->sendTo($input->getArgument('localFile'), $input->getArgument('remoteFile'));
             $output->writeln('File transfer handled.');
         } catch (\Exception $e) {
             $output->writeln('File transfer failed.');

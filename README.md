@@ -61,12 +61,12 @@ Usage
 2) Use sftp service  to transfer files over SFTP:
     
     ```php
-       $sftp->copy('/path/to/remoteFile', '/path/to/localFile');
+       $sftp->fetchFrom('/path/to/remoteFile', '/path/to/localFile');
        // or
-       $sftp->send('/path/to/localFile', '/path/to/remoteFile');
+       $sftp->sendTo('/path/to/localFile', '/path/to/remoteFile');
     ```
 
 3) From CLI could be used one of the following commands:
    
-    - `php app(bin)/console sftp:copy /path/to/remoteFile /path/to/localFile` - to copy files from remote server to local machine
-    - `php app(bin)/console sftp:send /path/to/localFile /path/to/remoteFile` - to copy files from local server to remote machine
+    - `php app(bin)/console sf2h:sftp:fetchFrom /path/to/remoteFile /path/to/localFile` - to copy files from remote server to local machine
+    - `php app(bin)/console sf2h:sftp:sendTo /path/to/localFile /path/to/remoteFile` - to copy files from local server to remote machine
