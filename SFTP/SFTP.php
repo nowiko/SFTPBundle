@@ -75,7 +75,7 @@ class SFTP implements ConnectionInterface, ResourceTransferInterface
     public function getRemoteFilesList($dir)
     {
         $handle = opendir("ssh2.sftp://$this->sftp" . $dir);
-        $files  = [];
+        $files  = array();
 
         while (false !== ($entry = readdir($handle))) {
             $files[] = $entry;
