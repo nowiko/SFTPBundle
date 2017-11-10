@@ -1,9 +1,9 @@
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/e0b26b60-76f3-40a4-9416-9b6c65fb93a2/mini.png)](https://insight.sensiolabs.com/projects/e0b26b60-76f3-40a4-9416-9b6c65fb93a2) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/NovikovViktor/SFTPBundle/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/NovikovViktor/SFTPBundle/?branch=develop)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/e0b26b60-76f3-40a4-9416-9b6c65fb93a2/mini.png)](https://insight.sensiolabs.com/projects/e0b26b60-76f3-40a4-9416-9b6c65fb93a2) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/NovikovViktor/SFTPBundle/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/NovikovViktor/SFTPBundle/?branch=develop) [![Build Status](https://travis-ci.org/NovikovViktor/SFTPBundle.svg?branch=develop)](https://travis-ci.org/NovikovViktor/SFTPBundle)
 
 Symfony2 Helpers - SFTP bundle
 =====================
 
-This bundle provide simple interface for transfer files by [SFTP](https://en.wikipedia.org/wiki/SFTP) protocol.
+This bundle provide simple interface for transfer files by [SFTP](https://en.wikipedia.org/wiki/SSH_File_Transfer_Protocol) protocol.
 
 Installation
 ==============
