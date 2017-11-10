@@ -23,9 +23,7 @@
         "symfony/framework-bundle": ">=2.3"
     },
     "require-dev": {
-        "symfony/finder": "~2.6",
-        "symfony/console": "~2.6",
-        "phpunit/phpunit": "5.7.*"
+        "phpunit/phpunit": "3.7.*"
     },
     "autoload" : {
         "psr-4" : { "SF2Helpers\\SFTPBundle\\" : "" }
