@@ -7,6 +7,11 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class SFTPTest extends WebTestCase
 {
+    // test credentials took from here - http://www.sftp.net/public-online-sftp-servers
+    private $hostname = 'demo.wftpserver.com:2222';
+    private $login    = 'demo-user';
+    private $password = 'demo-user';
+
     /** @var SFTP $sftpService */
     private $sftpService;
 
@@ -15,7 +20,15 @@ class SFTPTest extends WebTestCase
      */
     public function testConnect()
     {
-        //$this->assertEquals(1, 1);
+        $this->sftpService->connect($this->hostname, $this->login, $this->password);
+    }
+
+    /**
+     * Test connect()
+     */
+    public function testGetRemoteFilesList()
+    {
+        $this->sftpService->connect($this->hostname, $this->login, $this->password);
     }
 
     /**
