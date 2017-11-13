@@ -8,7 +8,8 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 class SFTPTest extends WebTestCase
 {
     // test credentials took from here - http://www.sftp.net/public-online-sftp-servers
-    private $hostname = 'demo.wftpserver.com:2222';
+    private $hostname = 'demo.wftpserver.com';
+    private $port     = '2222';
     private $login    = 'demo-user';
     private $password = 'demo-user';
 
@@ -20,15 +21,55 @@ class SFTPTest extends WebTestCase
      */
     public function testConnect()
     {
-        $this->sftpService->connect($this->hostname, $this->login, $this->password);
+        $sftpService = $this->sftpService;
+        $sftpService->connect($this->hostname, $this->port);
+        $sftpService->login($this->login, $this->password);
+        $sftpService->disconnect();
     }
 
     /**
-     * Test connect()
+     * Test getRemoteFilesList()
      */
     public function testGetRemoteFilesList()
     {
-        $this->sftpService->connect($this->hostname, $this->login, $this->password);
+        $sftpService = $this->sftpService;
+        $sftpService->connect($this->hostname, $this->port);
+        $sftpService->login($this->login, $this->password);
+
+        $filesList = $sftpService->getRemoteFilesList('/download');
+
+        $this->assertTrue(is_array($filesList));
+        $this->assertTrue(count($filesList) > 0);
+
+        $sftpService->disconnect();
+    }
+
+    /**
+     * Test sendTo()
+     */
+    public function testSendTo()
+    {
+        $sftpService = $this->sftpService;
+        $sftpService->connect($this->hostname, $this->port);
+        $sftpService->login($this->login, $this->password);
+
+//        $sftpService->sendTo('/Library/WebServer/Documents/SFTPBundle/Tests/test.txt', '/upload/1.txt');
+
+        $sftpService->disconnect();
+    }
+
+    /**
+     * Test sendTo()
+     */
+    public function testFetchFrom()
+    {
+        $sftpService = $this->sftpService;
+        $sftpService->connect($this->hostname, $this->port);
+        $sftpService->login($this->login, $this->password);
+
+        $sftpService->fetchFrom('/download/manual_ed.pdf', '/Library/WebServer/Documents/SFTPBundle/Tests/ttt.pdf');
+
+        $sftpService->disconnect();
     }
 
     /**
@@ -41,5 +82,13 @@ class SFTPTest extends WebTestCase
         $kernel->boot();
         $container         = $kernel->getContainer();
         $this->sftpService = $container->get('sf2h.sftp');
+    }
+
+    /**
+     * Shut down test suite
+     */
+    public function tearDown()
+    {
+        unset($this->sftpService);
     }
 }

@@ -21,29 +21,33 @@ class SFTP implements ConnectionInterface, ResourceTransferInterface
     /**
      * @inheritdoc
      */
-    public function connect($host, $username, $password = null)
+    public function connect($host, $port)
     {
-        $preparedHostDetails = explode(':', $host);
-        $connection          = ssh2_connect($preparedHostDetails[0], isset($preparedHostDetails[1]) ? $preparedHostDetails[1] : null);
-
-        is_null($password) ? ssh2_auth_agent($connection, $username) : ssh2_auth_password($connection, $username, $password);
-
-        $this->connection = $connection;
-        $this->sftp       = ssh2_sftp($connection);
+        $this->connection = ssh2_connect($host, $port);
     }
 
     /**
      * @inheritdoc
      */
-    public function connectWithKey($host, $username, $pubkeyfile, $privkeyfile, $passphrase = null)
+    public function login($username, $password = null)
     {
-        $preparedHostDetails = explode(':', $host);
-        $connection          = ssh2_connect($preparedHostDetails[0], isset($preparedHostDetails[1]) ? $preparedHostDetails[1] : null);
+        if (!$this->connection) {
+            throw new \LogicException('Establish connection with server before login');
+        }
+        is_null($password) ? ssh2_auth_agent($this->connection, $username) : ssh2_auth_password($this->connection, $username, $password);
+        $this->sftp = ssh2_sftp($this->connection);
+    }
 
-        ssh2_auth_pubkey_file($connection, $username, $pubkeyfile, $privkeyfile, $passphrase);
-
-        $this->connection = $connection;
-        $this->sftp       = ssh2_sftp($connection);
+    /**
+     * @inheritdoc
+     */
+    public function loginWithKey($username, $pubkeyfile, $privkeyfile, $passphrase = null)
+    {
+        if (!$this->connection) {
+            throw new \LogicException('Establish connection with server before login');
+        }
+        ssh2_auth_pubkey_file($this->connection, $username, $pubkeyfile, $privkeyfile, $passphrase);
+        $this->sftp = ssh2_sftp($this->connection);
     }
 
     /**
@@ -51,12 +55,11 @@ class SFTP implements ConnectionInterface, ResourceTransferInterface
      */
     public function fetchFrom($remoteFile, $localFile)
     {
-        $sftp = "ssh2.sftp://$this->sftp";
-        $data = file_get_contents($sftp . $remoteFile);
-        if (!$data) {
-            throw new \Exception('File can`t be loaded from server');
+        $remoteData = file_get_contents('ssh2.sftp://' . intval($this->sftp) . $remoteFile);
+        if (!$remoteData) {
+            throw new \Exception('File can`t be loaded from the SFTP server.');
         }
-        file_put_contents($localFile, $data);
+        file_put_contents($localFile, $remoteData);
     }
 
     /**
@@ -64,10 +67,9 @@ class SFTP implements ConnectionInterface, ResourceTransferInterface
      */
     public function sendTo($localFile, $remoteFile)
     {
-        $sftp = "ssh2.sftp://$this->sftp";
-        $data = file_get_contents($localFile);
-        if (!file_put_contents($sftp . $remoteFile, $data)) {
-            throw new \Exception('File could not be uploaded to server');
+        $localData = file_get_contents($localFile);
+        if (!file_put_contents("ssh2.sftp://" . intval($this->sftp) . $remoteFile, $localData)) {
+            throw new \Exception('File could not be uploaded to the SFTP server.');
         }
     }
 
@@ -76,8 +78,12 @@ class SFTP implements ConnectionInterface, ResourceTransferInterface
      */
     public function getRemoteFilesList($dir)
     {
-        $handle = opendir("ssh2.sftp://$this->sftp" . $dir);
+        $handle = opendir("ssh2.sftp://" . intval($this->sftp) . $dir);
         $files  = array();
+
+        if (is_bool($handle)) {
+            throw new \Exception('Could not read files list from remote SFTP server. Check your connection.');
+        }
 
         while (false !== ($entry = readdir($handle))) {
             $files[] = $entry;
@@ -91,7 +97,7 @@ class SFTP implements ConnectionInterface, ResourceTransferInterface
      */
     public function disconnect()
     {
-        ssh2_exec($this->connection, 'exit');
         unset($this->connection);
+        unset($this->sftp);
     }
 }
