@@ -12,6 +12,8 @@ matrix:
       dist: precise
 
 before_script:
+  - sudo apt-get install -y -qq libssh2-1-dev libssh2-php
+  - pecl install -f ssh2-beta < .noninteractive
   - composer install
 
 script:
