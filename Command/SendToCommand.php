@@ -8,7 +8,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class SendFileCommand extends ContainerAwareCommand
+class SendToCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
@@ -35,8 +35,9 @@ class SendFileCommand extends ContainerAwareCommand
         $sftp = $this->get('sftp');
 
         try {
+            $output->writeln('Started sending file to remote SFTP server.');
             $sftp->sendTo($input->getArgument('localFile'), $input->getArgument('remoteFile'));
-            $output->writeln('File transfer handled.');
+            $output->writeln('Successful sending file to the SFTP server.');
         } catch (\Exception $e) {
             $output->writeln('File transfer failed.');
         }

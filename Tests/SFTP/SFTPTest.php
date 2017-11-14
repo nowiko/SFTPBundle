@@ -17,31 +17,14 @@ class SFTPTest extends WebTestCase
     private $sftpService;
 
     /**
-     * Test connect()
-     */
-    public function testConnect()
-    {
-        $sftpService = $this->sftpService;
-        $sftpService->connect($this->hostname, $this->port);
-        $sftpService->login($this->login, $this->password);
-        $sftpService->disconnect();
-    }
-
-    /**
      * Test getRemoteFilesList()
      */
     public function testGetRemoteFilesList()
     {
-        $sftpService = $this->sftpService;
-        $sftpService->connect($this->hostname, $this->port);
-        $sftpService->login($this->login, $this->password);
-
-        $filesList = $sftpService->getRemoteFilesList('/download');
+        $filesList = $this->sftpService->getRemoteFilesList('/download');
 
         $this->assertTrue(is_array($filesList));
         $this->assertTrue(count($filesList) > 0);
-
-        $sftpService->disconnect();
     }
 
     /**
@@ -49,13 +32,7 @@ class SFTPTest extends WebTestCase
      */
     public function testSendTo()
     {
-        $sftpService = $this->sftpService;
-        $sftpService->connect($this->hostname, $this->port);
-        $sftpService->login($this->login, $this->password);
-
-//        $sftpService->sendTo('/Library/WebServer/Documents/SFTPBundle/Tests/test.txt', '/upload/1.txt');
-
-        $sftpService->disconnect();
+//        $this->sftpService->sendTo(dirname(__FILE__).'/../fixtures/test.txt', '/upload/testfile_42563624.txt');
     }
 
     /**
@@ -63,13 +40,7 @@ class SFTPTest extends WebTestCase
      */
     public function testFetchFrom()
     {
-        $sftpService = $this->sftpService;
-        $sftpService->connect($this->hostname, $this->port);
-        $sftpService->login($this->login, $this->password);
-
-        $sftpService->fetchFrom('/download/manual_ed.pdf', '/Library/WebServer/Documents/SFTPBundle/Tests/ttt.pdf');
-
-        $sftpService->disconnect();
+        $this->sftpService->fetchFrom('/download/manual_en.pdf', dirname(__FILE__).'/../fixtures/manual_en.pdf');
     }
 
     /**
@@ -82,6 +53,9 @@ class SFTPTest extends WebTestCase
         $kernel->boot();
         $container         = $kernel->getContainer();
         $this->sftpService = $container->get('sf2h.sftp');
+
+        $this->sftpService->connect($this->hostname, $this->port);
+        $this->sftpService->login($this->login, $this->password);
     }
 
     /**
@@ -89,6 +63,8 @@ class SFTPTest extends WebTestCase
      */
     public function tearDown()
     {
+        $this->sftpService->disconnect();
         unset($this->sftpService);
+        unlink(dirname(__FILE__).'/../fixtures/manual_en.pdf');
     }
 }

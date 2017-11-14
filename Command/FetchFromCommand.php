@@ -8,7 +8,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CopyFileCommand extends ContainerAwareCommand
+class FetchFromCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
@@ -35,8 +35,9 @@ class CopyFileCommand extends ContainerAwareCommand
         $sftp = $this->get('sftp');
 
         try {
+            $output->writeln('Started fetching file from remote SFTP server.');
             $sftp->fetchFrom($input->getArgument('remoteFile'), $input->getArgument('localFile'));
-            $output->writeln('File transfer handled.');
+            $output->writeln('Successful file transfer from the SFTP server.');
         } catch (\Exception $e) {
             $output->writeln('File transfer failed.');
         }

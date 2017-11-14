@@ -53,9 +53,10 @@ Usage
     
     ```php
        $sftp = $this->get('sf2h.sftp');
-       $sftp->connect($host, $username, $password = null);
+       $sftp->connect($host, $port);
+       $sftp->login($username, $password);
        // or
-       $sftp->connectWithKey($host, $username, $pubkeyfile, $privkeyfile, $passphrase = null);
+       $sftp->loginWithKey($host, $username, $pubkeyfile, $privkeyfile, $passphrase = null);
     ```
 
 2) Use sftp service  to transfer files over SFTP:
