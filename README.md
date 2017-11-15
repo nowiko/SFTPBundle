@@ -1,4 +1,4 @@
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/e0b26b60-76f3-40a4-9416-9b6c65fb93a2/mini.png)](https://insight.sensiolabs.com/projects/e0b26b60-76f3-40a4-9416-9b6c65fb93a2) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/NovikovViktor/SFTPBundle/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/NovikovViktor/SFTPBundle/?branch=develop) [![Build Status](https://travis-ci.org/NovikovViktor/SFTPBundle.svg?branch=develop)](https://travis-ci.org/NovikovViktor/SFTPBundle) [![Maintainability](https://api.codeclimate.com/v1/badges/04d63d9f536e077027b0/maintainability)](https://codeclimate.com/github/NovikovViktor/RequestLimitBundle/maintainability)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/e0b26b60-76f3-40a4-9416-9b6c65fb93a2/mini.png)](https://insight.sensiolabs.com/projects/e0b26b60-76f3-40a4-9416-9b6c65fb93a2) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/NovikovViktor/SFTPBundle/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/NovikovViktor/SFTPBundle/?branch=develop) [![Build Status](https://travis-ci.org/NovikovViktor/SFTPBundle.svg?branch=develop)](https://travis-ci.org/NovikovViktor/SFTPBundle) [![Maintainability](https://api.codeclimate.com/v1/badges/72c8963111d07dacf0c6/maintainability)](https://codeclimate.com/github/NovikovViktor/SFTPBundle/maintainability)
 
 Symfony2 Helpers - SFTP bundle
 =====================
@@ -12,8 +12,8 @@ Installation
 
     ```bash
         // Ubuntu
-        sudo apt-get install libssh2-php
-        sudo service apache2 restart
+        sudo apt-get update
+        sudo apt-get install libssh2-1-dev libssh2-php
         
         //MacOS
         sudo port install libssh2
@@ -23,6 +23,9 @@ Installation
         
         // enable extension in php.ini
         extension = ssh2.so
+        
+        //Restart server
+        sudo service apache2 restart
     ```
 
 2) Install bundle using Composer:
