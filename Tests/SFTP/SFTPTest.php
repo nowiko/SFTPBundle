@@ -32,7 +32,7 @@ class SFTPTest extends WebTestCase
      */
     public function testSendTo()
     {
-//        $this->sftpService->sendTo(dirname(__FILE__).'/../fixtures/test.txt', '/upload/testfile_42563624.txt');
+        $this->sftpService->sendTo(dirname(__FILE__).'/../fixtures/b629855d08.png', '/upload/b629855d08.png');
     }
 
     /**
@@ -40,7 +40,7 @@ class SFTPTest extends WebTestCase
      */
     public function testFetchFrom()
     {
-//        $this->sftpService->fetchFrom('/download/manual_en.pdf', dirname(__FILE__).'/../fixtures/manual_en.pdf');
+        $this->sftpService->fetchFrom('/download/manual_en.pdf', dirname(__FILE__).'/../fixtures/manual_en.pdf');
     }
 
     /**
