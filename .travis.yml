@@ -15,6 +15,7 @@ before_script:
   - echo '' | pecl install -f ssh2
   - echo "extension=ssh2.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
   - php -m | grep ssh2
+  - "travis_wait 30 sleep 1800 &"
   - composer install
 
 script:
