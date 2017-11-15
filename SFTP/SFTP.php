@@ -67,6 +67,10 @@ class SFTP implements ConnectionInterface, ResourceTransferInterface
      */
     public function sendTo($localFile, $remoteFile)
     {
+        if (!file_exists($localFile)) {
+            throw new \Exception('Local file doesn\'t exists.');
+        }
+
         $sftp = "ssh2.sftp://" . intval($this->sftp);
         $data = file_get_contents($localFile);
 
