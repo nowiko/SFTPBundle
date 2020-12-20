@@ -1,28 +1,33 @@
 <?php
 
-namespace SF2Helpers\SFTPBundle\Command;
+namespace NW\SFTPBundle\Command;
 
-use SF2Helpers\SFTPBundle\SFTP\SFTP;
+use NW\SFTPBundle\SFTP\SFTP;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class SendToCommand extends ContainerAwareCommand
+/**
+ * Class SendCommand
+ * @package NW\SFTPBundle\Command
+ * @author Novikov Viktor
+ */
+class SendCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
         $this
-            ->setName('sf2h:sftp:sendTo')
+            ->setName('nw:sftp:send')
             ->setDefinition(array(
                 new InputArgument('localFile', InputArgument::REQUIRED, 'Full path to local file'),
                 new InputArgument('remoteFile', InputArgument::REQUIRED, 'Full path to remote file')
             ))
-            ->setDescription('Send file to remote SFTP server from local machine')
+            ->setDescription('Send a file to remote SFTP server from local machine')
             ->setHelp("
-                The <info>./app/console sftp:send</info> command copies file to remote SFTP server from your local machine by specified path:
+                The <info>./app/console nw:sftp:send</info> command copies file to remote SFTP server from your local machine by the specified path:
                 Command example:
-                  <info>./app/console sftp:send /path/to/localFile.txt /path/to/remoteFile.txt</info>
+                  <info>./app/console nw:sftp:send /path/to/localFile.txt /path/to/remoteFile.txt</info>
             ");
     }
 
@@ -35,9 +40,9 @@ class SendToCommand extends ContainerAwareCommand
         $sftp = $this->get('sftp');
 
         try {
-            $output->writeln('Started sending file to remote SFTP server.');
-            $sftp->sendTo($input->getArgument('localFile'), $input->getArgument('remoteFile'));
-            $output->writeln('Successful sending file to the SFTP server.');
+            $output->writeln('Started sending a file to a remote SFTP server.');
+            $sftp->send($input->getArgument('localFile'), $input->getArgument('remoteFile'));
+            $output->writeln('Successful file transfer to the SFTP server.');
         } catch (\Exception $e) {
             $output->writeln('File transfer failed.');
         }

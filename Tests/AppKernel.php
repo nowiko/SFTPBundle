@@ -8,10 +8,9 @@ class AppKernel extends Kernel
     public function registerBundles()
     {
         $bundles = array();
-
         if (in_array($this->getEnvironment(), array('test'))) {
             $bundles[] = new Symfony\Bundle\FrameworkBundle\FrameworkBundle();
-            $bundles[] = new SF2Helpers\SFTPBundle\SF2HelpersSFTPBundle();
+            $bundles[] = new NW\SFTPBundle\NWSFTPBundle();
         }
 
         return $bundles;

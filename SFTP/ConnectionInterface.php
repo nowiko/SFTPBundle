@@ -1,7 +1,12 @@
 <?php
 
-namespace SF2Helpers\SFTPBundle\SFTP;
+namespace NW\SFTPBundle\SFTP;
 
+/**
+ * Interface ConnectionInterface
+ * @package NW\SFTPBundle\SFTP
+ * @author Novikov Viktor
+ */
 interface ConnectionInterface
 {
     /**

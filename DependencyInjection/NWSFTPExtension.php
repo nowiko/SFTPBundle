@@ -1,13 +1,18 @@
 <?php
 
-namespace SF2Helpers\SFTPBundle\DependencyInjection;
+namespace NW\SFTPBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
-class SF2HelpersSFTPExtension extends Extension
+/**
+ * Class NWSFTPExtension
+ * @package NW\SFTPBundle\DependencyInjection
+ * @author Novikov Viktor
+ */
+class NWSFTPExtension extends Extension
 {
     /**
      * {@inheritDoc}
