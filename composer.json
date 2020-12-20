@@ -1,11 +1,10 @@
 {
-    "name" : "sf2h/sftp-bundle",
+    "name" : "nw/sftp-bundle",
     "type" : "symfony-bundle",
-    "description" : "Symfony bundle which provide quite simple functions for interact with sftp servers",
+    "description" : "This bundle provide quite simple functions for interact with SFTP servers",
     "keywords" : [
         "sftp",
-        "Symfony2",
-        "Symfony3",
+        "Symfony",
         "ssh",
         "ftp",
         "transfer",
@@ -19,13 +18,15 @@
         }
     ],
     "require" : {
-        "php": ">=5.3",
-        "symfony/framework-bundle": ">=2.3"
+        "php": "^7",
+        "symfony/symfony": ">=3.0",
+        "ext-ssh2": "*"
     },
     "require-dev": {
-        "phpunit/phpunit": "3.7.*"
+        "phpspec/phpspec": "*",
+        "phpunit/phpunit": "~5.0"
     },
     "autoload" : {
-        "psr-4" : { "SF2Helpers\\SFTPBundle\\" : "" }
+        "psr-4" : { "NW\\SFTPBundle\\" : "" }
     }
 }

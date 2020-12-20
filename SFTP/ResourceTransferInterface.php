@@ -1,7 +1,12 @@
 <?php
 
-namespace SF2Helpers\SFTPBundle\SFTP;
+namespace NW\SFTPBundle\SFTP;
 
+/**
+ * Interface ResourceTransferInterface
+ * @package NW\SFTPBundle\SFTP
+ * @author Novikov Viktor
+ */
 interface ResourceTransferInterface
 {
     /**
@@ -11,7 +16,7 @@ interface ResourceTransferInterface
      * @param $localFile
      * @return mixed
      */
-    public function fetchFrom($remoteFile, $localFile);
+    public function fetch($remoteFile, $localFile);
 
     /**
      * Copy file from local machine to remote
@@ -20,7 +25,7 @@ interface ResourceTransferInterface
      * @param $remoteFile
      * @return mixed
      */
-    public function sendTo($localFile, $remoteFile);
+    public function send($localFile, $remoteFile);
 
     /**
      * Return array of files names from remote dir
@@ -28,5 +33,5 @@ interface ResourceTransferInterface
      * @param $remoteDir
      * @return array
      */
-    public function getRemoteFilesList($remoteDir);
+    public function getFilesList($remoteDir);
 }

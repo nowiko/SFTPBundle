@@ -1,7 +1,12 @@
 <?php
 
-namespace SF2Helpers\SFTPBundle\SFTP;
+namespace NW\SFTPBundle\SFTP;
 
+/**
+ * Class SFTP
+ * @package NW\SFTPBundle\SFTP
+ * @author Novikov Viktor
+ */
 class SFTP implements ConnectionInterface, ResourceTransferInterface
 {
     /**
@@ -27,7 +32,7 @@ class SFTP implements ConnectionInterface, ResourceTransferInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function login($username, $password = null)
     {
@@ -39,21 +44,21 @@ class SFTP implements ConnectionInterface, ResourceTransferInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function loginWithKey($username, $pubkeyfile, $privkeyfile, $passphrase = null)
+    public function loginWithKey($username, $publicKeyFile, $privateKeyFile, $passPhrase = null)
     {
         if (!$this->connection) {
             throw new \LogicException('Establish connection with server before login');
         }
-        ssh2_auth_pubkey_file($this->connection, $username, $pubkeyfile, $privkeyfile, $passphrase);
+        ssh2_auth_pubkey_file($this->connection, $username, $publicKeyFile, $privateKeyFile, $passPhrase);
         $this->sftp = ssh2_sftp($this->connection);
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function fetchFrom($remoteFile, $localFile)
+    public function fetch($remoteFile, $localFile)
     {
         $remoteData = file_get_contents('ssh2.sftp://' . intval($this->sftp) . $remoteFile);
         if (!$remoteData) {
@@ -63,9 +68,9 @@ class SFTP implements ConnectionInterface, ResourceTransferInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function sendTo($localFile, $remoteFile)
+    public function send($localFile, $remoteFile)
     {
         if (!file_exists($localFile)) {
             throw new \Exception('Local file doesn\'t exists.');
@@ -80,11 +85,11 @@ class SFTP implements ConnectionInterface, ResourceTransferInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function getRemoteFilesList($dir)
+    public function getFilesList($remoteDir)
     {
-        $handle = opendir("ssh2.sftp://" . intval($this->sftp) . $dir);
+        $handle = opendir("ssh2.sftp://" . intval($this->sftp) . $remoteDir);
         $files  = array();
 
         if (is_bool($handle)) {
@@ -99,7 +104,7 @@ class SFTP implements ConnectionInterface, ResourceTransferInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function disconnect()
     {

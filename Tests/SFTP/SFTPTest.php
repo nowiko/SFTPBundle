@@ -1,46 +1,53 @@
 <?php
 
-namespace SF2Helpers\SFTPBundle\Tests\SFTP;
+namespace NW\SFTPBundle\Tests\SFTP;
 
-use SF2Helpers\SFTPBundle\SFTP\SFTP;
+use NW\SFTPBundle\SFTP\SFTP;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
+/**
+ * Class SFTPTest
+ * @package NW\SFTPBundle\Tests\SFTP
+ * @author Novikov Viktor
+ */
 class SFTPTest extends WebTestCase
 {
     // test credentials took from here - http://www.sftp.net/public-online-sftp-servers
-    private $hostname = 'demo.wftpserver.com';
-    private $port     = '2222';
-    private $login    = 'demo-user';
-    private $password = 'demo-user';
+    private $hostname = 'test.rebex.net';
+    private $port     = '22';
+    private $login    = 'demo';
+    private $password = 'password';
 
     /** @var SFTP $sftpService */
     private $sftpService;
 
     /**
-     * Test getRemoteFilesList()
+     * Test send()
      */
-    public function testGetRemoteFilesList()
+    public function testSend()
     {
-        $filesList = $this->sftpService->getRemoteFilesList('/download');
+        // TESTING OF SEND METHOD IS DISABLED BECAUSE TEST SERVER ONLY ALLOW READS
+        //$this->sftpService->send(dirname(__FILE__).'/../fixtures/b629855d08.png', '/pub/example/b629855d08.png');
+    }
 
+    /**
+     * Test getFilesList()
+     * @depends testSend
+     */
+    public function testGetFilesList()
+    {
+        $filesList = $this->sftpService->getFilesList('/pub/example');
         $this->assertTrue(is_array($filesList));
         $this->assertTrue(count($filesList) > 0);
     }
 
     /**
-     * Test sendTo()
-     */
-    public function testSendTo()
-    {
-        $this->sftpService->sendTo(dirname(__FILE__).'/../fixtures/b629855d08.png', '/upload/b629855d08.png');
-    }
-
-    /**
-     * Test sendTo()
+     * Test fetch()
+     * @depends testSend
      */
     public function testFetchFrom()
     {
-        $this->sftpService->fetchFrom('/download/manual_en.pdf', dirname(__FILE__).'/../fixtures/manual_en.pdf');
+        $this->sftpService->fetch('/pub/example/readme.txt', dirname(__FILE__).'/../fixtures/readme.txt');
     }
 
     /**
@@ -52,7 +59,7 @@ class SFTPTest extends WebTestCase
         $kernel = new \AppKernel('test', true);
         $kernel->boot();
         $container         = $kernel->getContainer();
-        $this->sftpService = $container->get('sf2h.sftp');
+        $this->sftpService = $container->get('nw.sftp');
 
         $this->sftpService->connect($this->hostname, $this->port);
         $this->sftpService->login($this->login, $this->password);
@@ -65,8 +72,8 @@ class SFTPTest extends WebTestCase
     {
         $this->sftpService->disconnect();
         unset($this->sftpService);
-        if (file_exists(dirname(__FILE__).'/../fixtures/manual_en.pdf')) {
-            unlink(dirname(__FILE__).'/../fixtures/manual_en.pdf');
+        if (file_exists(dirname(__FILE__).'/../fixtures/readme.txt')) {
+            unlink(dirname(__FILE__).'/../fixtures/readme.txt');
         }
     }
 }
