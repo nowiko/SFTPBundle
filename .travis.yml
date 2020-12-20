@@ -4,12 +4,11 @@ php:
   - 7.0
   - 7.1
   - 7.2
-  - 7.3
-  - 7.4
 
 before_script:
   - sudo apt-get update
   - sudo apt-get install libssh2-1-dev php-ssh2
+  - echo '' | pecl install -f ssh2
   - echo "extension=ssh2.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
   - php -m | grep ssh2
   - "travis_wait 30 sleep 1800 &"
